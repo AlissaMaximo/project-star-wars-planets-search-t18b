@@ -1,7 +1,7 @@
 import React from 'react';
-import Context from './Context';
+import Context from '../context/MyContext';
 
-function Table() {
+function Table(/* aqui vem o valor do context */) {
   return (
     <>
       <p>oi do Table temporário</p>
