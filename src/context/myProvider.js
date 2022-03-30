@@ -8,20 +8,28 @@ function Provider({ children }) {
   const [planets, setPlanets] = useState(INITIAL_STATE);
 
   useEffect(() => {
-    getPlanets().then((planetsData) => {
+    const fetchedPlanets = async () => {
+      const planetsData = await getPlanets();
+
       setPlanets(planetsData);
-    });
+    };
+
+    fetchedPlanets();
   }, []);
 
+  const context = {
+    planets,
+  };
+
   return (
-    <myContext.Provider value={ { planets } }>
+    <myContext.Provider value={ context }>
       { children }
     </myContext.Provider>
   );
 }
 
 Provider.propTypes = {
-  children: PropTypes.isRequired,
+  children: PropTypes.shape().isRequired,
 };
 
 export default Provider;
