@@ -4,10 +4,9 @@ import myContext from './MyContext';
 import getPlanets from '../fetch';
 
 function Provider({ children }) {
-  const INITIAL_STATE = {};
-  const [planets, setPlanets] = useState(INITIAL_STATE);
-  /*   const [nameFilter, setNameFilter] = useState(INITIAL_STATE);
- */
+  const [planets, setPlanets] = useState([]);
+  const [filterByName, setFilterByName] = useState({ name: '' }); // André Torres e Letícia Mayr deram a ideia e explicaram como funciona o objeto dentro do useState
+
   useEffect(() => {
     const fetchPlanets = async () => {
       const planetsData = await getPlanets();
@@ -18,19 +17,21 @@ function Provider({ children }) {
     fetchPlanets();
   }, []);
 
-  const context = {
-    planets,
-  };
-
   return (
-    <myContext.Provider value={ context }>
+    <myContext.Provider
+      value={ {
+        planets,
+        filterByName,
+        setFilterByName,
+      } }
+    >
       { children }
     </myContext.Provider>
   );
 }
 
 Provider.propTypes = {
-  children: PropTypes.shape().isRequired,
+  children: PropTypes.arrayOf(PropTypes.objectOf).isRequired,
 };
 
 export default Provider;
