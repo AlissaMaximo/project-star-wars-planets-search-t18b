@@ -6,7 +6,8 @@ import getPlanets from '../fetch';
 function Provider({ children }) {
   const INITIAL_STATE = {};
   const [planets, setPlanets] = useState(INITIAL_STATE);
-
+  /*   const [nameFilter, setNameFilter] = useState(INITIAL_STATE);
+ */
   useEffect(() => {
     const fetchPlanets = async () => {
       const planetsData = await getPlanets();
