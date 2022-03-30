@@ -8,13 +8,13 @@ function Provider({ children }) {
   const [planets, setPlanets] = useState(INITIAL_STATE);
 
   useEffect(() => {
-    const fetchedPlanets = async () => {
+    const fetchPlanets = async () => {
       const planetsData = await getPlanets();
 
       setPlanets(planetsData);
     };
 
-    fetchedPlanets();
+    fetchPlanets();
   }, []);
 
   const context = {
