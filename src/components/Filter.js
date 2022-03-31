@@ -1,17 +1,18 @@
 import React, { useContext } from 'react';
 import context from '../context/MyContext';
 
-function NameInput() {
+function Filter() {
   const {
-    filterByNumericValues: [{ column, comparison, value }], setFilterByNumericValues
+    filterByNumericValues: [{ column, comparison, value }], setFilterByNumericValues,
   } = useContext(context);
 
   const filterPlanets = ({ target: { name, value } }) => {
   };
 
   return (
-    <section>
-      <form>
+    <form>
+      <label htmlFor="select-aspect">
+        Coluna
         <select
           data-testid="column-filter"
           id="select-aspect"
@@ -23,6 +24,9 @@ function NameInput() {
           <option value="rotation_period">rotation_period</option>
           <option value="surface_water">surface_water</option>
         </select>
+      </label>
+      <label htmlFor="select-range">
+        Operador
         <select
           data-testid="comparison-filter"
           id="select-range"
@@ -32,22 +36,25 @@ function NameInput() {
           <option value="smallerThan">menor que</option>
           <option value="sameAs">igual a</option>
         </select>
+      </label>
+      <label htmlFor="input-value">
+        Valor
         <input
           data-testid="value-filter"
           type="number"
           id="input-value"
           name="number"
         />
-        <button
-          data-testid="button-filter"
-          type="button"
-          onClick={ filterPlanets }
-        >
-          Filtrar
-        </button>
-      </form>
-    </section>
+      </label>
+      <button
+        data-testid="button-filter"
+        type="button"
+        onClick={ filterPlanets }
+      >
+        Filtrar
+      </button>
+    </form>
   );
 }
 
-export default NameInput;
+export default Filter;
