@@ -1,22 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import context from '../context/MyContext';
 
 function Filter() {
-  const {
-    filterByNumericValues: [{ column, comparison, value }], setFilterByNumericValues,
-  } = useContext(context);
+  const { filterByNumericValues, setFilterByNumericValues } = useContext(context);
+  const [filters, setFilters] = useState({});
 
-  const filterPlanets = ({ target: { name, value } }) => {
+  const handleFormChange = (event) => {
+    setFilters({
+      [event.name]: event.value
+    })
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    setFilters(INITIAL_NUMERIC_VALUES);
   };
 
   return (
-    <form>
+    <form onSubmit={ handleSubmit }>
       <label htmlFor="select-aspect">
         Coluna
         <select
           data-testid="column-filter"
           id="select-aspect"
-          name="aspect"
+          name="column"
+          value={ }
+          onChange={ handleFormChange }
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -30,11 +40,13 @@ function Filter() {
         <select
           data-testid="comparison-filter"
           id="select-range"
-          name="range"
+          name="comparison"
+          value={ }
+          onChange={ handleFormChange }
         >
-          <option value="biggerThan">maior que</option>
-          <option value="smallerThan">menor que</option>
-          <option value="sameAs">igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
       </label>
       <label htmlFor="input-value">
@@ -43,13 +55,14 @@ function Filter() {
           data-testid="value-filter"
           type="number"
           id="input-value"
-          name="number"
+          name="value"
+          value={ }
+          onChange={ handleFormChange }
         />
       </label>
       <button
         data-testid="button-filter"
-        type="button"
-        onClick={ filterPlanets }
+        type="submit"
       >
         Filtrar
       </button>
