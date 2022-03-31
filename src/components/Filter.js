@@ -2,6 +2,12 @@ import React, { useContext, useState } from 'react';
 import context from '../context/MyContext';
 
 function Filter() {
+  const columnOptions = ['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
+
   const { filterByNumericValues, setFilterByNumericValues } = useContext(context);
   const INITIAL_NUMERIC_VALUES = {
     column: 'population',
@@ -9,15 +15,15 @@ function Filter() {
     value: 0,
   };
   const [filters, setFilters] = useState(INITIAL_NUMERIC_VALUES);
+  const [options, setOptions] = useState(columnOptions);
 
   const handleFormChange = ({ target }) => {
     setFilters({ ...filters, [target.name]: target.value });
   };
 
   const handleButton = () => {
-    console.log(filters);
     setFilterByNumericValues([...filterByNumericValues, filters]);
-    // setFilters(INITIAL_NUMERIC_VALUES);
+    setOptions(options.filter((option) => option !== filters.column));
   };
 
   return (
@@ -29,13 +35,11 @@ function Filter() {
           id="select-aspect"
           name="column"
           value={ filters.column }
-          onChange={ (event) => handleFormChange(event) }
+          onChange={ handleFormChange }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {options.map((option) => (
+            <option key={ option } value={ option }>{option}</option>
+          ))}
         </select>
       </label>
       <label htmlFor="select-range">

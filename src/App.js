@@ -16,3 +16,5 @@ function App() {
 }
 
 export default App;
+
+/* Su Costa e Bruno Alves me guiaram nos reqs 3, 4, 5 */
