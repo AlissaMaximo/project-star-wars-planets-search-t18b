@@ -3,30 +3,33 @@ import context from '../context/MyContext';
 
 function Filter() {
   const { filterByNumericValues, setFilterByNumericValues } = useContext(context);
-  const [filters, setFilters] = useState({});
+  const INITIAL_NUMERIC_VALUES = {
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  };
+  const [filters, setFilters] = useState(INITIAL_NUMERIC_VALUES);
 
-  const handleFormChange = (event) => {
-    setFilters({
-      [event.name]: event.value
-    })
-  }
+  const handleFormChange = ({ target }) => {
+    setFilters({ ...filters, [target.name]: target.value });
+  };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    setFilters(INITIAL_NUMERIC_VALUES);
+  const handleButton = () => {
+    console.log(filters);
+    setFilterByNumericValues([...filterByNumericValues, filters]);
+    // setFilters(INITIAL_NUMERIC_VALUES);
   };
 
   return (
-    <form onSubmit={ handleSubmit }>
+    <form>
       <label htmlFor="select-aspect">
         Coluna
         <select
           data-testid="column-filter"
           id="select-aspect"
           name="column"
-          value={ }
-          onChange={ handleFormChange }
+          value={ filters.column }
+          onChange={ (event) => handleFormChange(event) }
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -41,7 +44,7 @@ function Filter() {
           data-testid="comparison-filter"
           id="select-range"
           name="comparison"
-          value={ }
+          value={ filters.comparison }
           onChange={ handleFormChange }
         >
           <option value="maior que">maior que</option>
@@ -56,13 +59,14 @@ function Filter() {
           type="number"
           id="input-value"
           name="value"
-          value={ }
+          value={ filters.value }
           onChange={ handleFormChange }
         />
       </label>
       <button
         data-testid="button-filter"
-        type="submit"
+        type="button"
+        onClick={ handleButton }
       >
         Filtrar
       </button>

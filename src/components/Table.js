@@ -1,12 +1,48 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import context from '../context/MyContext';
 
 function Table() {
-  const { planets, filterByName: { name } } = useContext(context);
+  const {
+    planets,
+    filterByName: { name },
+    filterByNumericValues,
+    finalFiltered,
+    setFinalFiltered,
+  } = useContext(context);
 
-  const filteredPlanets = () => planets
-    .filter((planet) => planet.name.toLowerCase()
-      .includes(name.toLowerCase()));
+  const filteredPlanetsByName = () => planets
+    .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
+
+  const filteredPlanets = () => {
+    if (filterByNumericValues.length > 0) {
+      filterByNumericValues.forEach((filter) => {
+        const { column, comparison, value } = filter;
+        switch (comparison) {
+        case 'maior que':
+          setFinalFiltered(finalFiltered
+            .filter((planet) => Number(planet[column]) > Number(value)));
+          break;
+        case 'menor que':
+          setFinalFiltered(finalFiltered
+            .filter((planet) => Number(planet[column]) < Number(value)));
+          break;
+        case 'igual a':
+          setFinalFiltered(finalFiltered
+            .filter((planet) => Number(planet[column]) === Number(value)));
+          break;
+        default: console.log('Erro!');
+        }
+      });
+    }
+  };
+
+  useEffect(() => {
+    setFinalFiltered(filteredPlanetsByName());
+  }, [planets, name]);
+
+  useEffect(() => {
+    filteredPlanets();
+  }, [filterByNumericValues]);
 
   return (
     <table>
@@ -29,7 +65,7 @@ function Table() {
       </thead>
       <tbody>
         {
-          planets.length > 0 && filteredPlanets().map((planet) => (
+          finalFiltered.length > 0 && finalFiltered.map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>

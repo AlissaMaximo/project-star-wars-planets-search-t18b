@@ -6,7 +6,9 @@ import getPlanets from '../fetch';
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filterByName, setFilterByName] = useState({ name: '' }); // André Torres e Letícia Mayr deram a ideia e explicaram como funciona o objeto dentro do useState
-  const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [filterByNumericValues,
+    setFilterByNumericValues] = useState([]);
+  const [finalFiltered, setFinalFiltered] = useState(planets);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -26,6 +28,8 @@ function Provider({ children }) {
         setFilterByName,
         filterByNumericValues,
         setFilterByNumericValues,
+        finalFiltered,
+        setFinalFiltered,
       } }
     >
       { children }
